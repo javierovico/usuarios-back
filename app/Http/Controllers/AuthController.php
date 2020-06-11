@@ -27,6 +27,7 @@ class AuthController extends Controller{
             'password' => bcrypt($request->password),
         ]);
         $user->save();
+        $user->addRol('user');
         return response(['success' => true, 'message' => 'usuario creado'],201);
     }
     public function login(Request $request){
