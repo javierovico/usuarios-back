@@ -1,5 +1,6 @@
 <?php
 
+use App\Rol;
 use Illuminate\Database\Seeder;
 
 class RolSeeder extends Seeder
@@ -9,8 +10,14 @@ class RolSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        //
+    public function run(){
+        $role = new Rol();
+        $role->name = Rol::NOMBRE_ROL_USER;
+        $role->description = 'rol por defecto';
+        $role->save();
+        $role = new Rol();
+        $role->name = Rol::NOMBRE_ROL_ADMIN;
+        $role->description = 'rol administrador';
+        $role->save();
     }
 }
