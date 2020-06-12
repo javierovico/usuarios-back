@@ -18,9 +18,14 @@ class UserController extends Controller{
         $request->validate([
             'cantidad' => 'integer|max:40',    //por pagina
             'page'=>'integer',          //pagina actual
+            'id' => 'integer',          //para busqueda
         ]);
         $this->autorizar(true,'admin');
-        return User::query()->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
+        $query = User::query();
+        if($userId = $request->get('id')){
+            $query = $query->where('id',$userId);
+        }
+        return $query->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
     }
 
     public function store(Request $request){
@@ -38,7 +43,7 @@ class UserController extends Controller{
                 'last_name' => 'string|max:200',
                 'username' => 'string|max:200',
                 'name'     => 'string|max:200',
-                'email'    => 'string|email|unique:users|max:200',
+                'email'    => 'string|email|max:200',
                 'password' => 'string',
                 'rols' => ''
             ]);
