@@ -85,4 +85,13 @@ class UserController extends Controller{
         }
         return ['success' => true, 'message' => sprintf("El usuario %s fue eliminado",$userEdit->username)];
     }
+
+    public function show(Request $request, $id){
+        $userEdit = User::findOrFail($id);
+        if($userEdit->id != $this->getUser()->id && !$this->autorizar(false,'admin')){
+            abort(401,"No siendo admin solo podes editar tu propio id: ".$this->getUser()->id);
+        }else{
+            return $userEdit;
+        }
+    }
 }
